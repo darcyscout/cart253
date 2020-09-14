@@ -9,7 +9,7 @@ Here is a description of this template p5 project.
 //
 // Description of setup() goes here.
 function setup() {
-
+background(35,50,60);
 }
 
 // draw()
