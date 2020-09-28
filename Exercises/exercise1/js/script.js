@@ -61,6 +61,8 @@ function setup() {
 function draw() {
 background(bg.r,bg.g,bg.b);
 bg.r = map(circle1.size,100,width,0,255);   // Map the background red colour to change with the circles' size
+bg.g = map(mouseX, 0, width, 0, 255);       // Mouse X position is mapped to the background green tone
+bg.b = map(mouseY, 0, height, 0, 255);      // Mouse Y position is mapped to the background blue tone
   // Circle 1
 fill(circle1.fill, circle1.fill, circle1.fill, circle1.alpha);
 ellipse(circle1.x,circle1.y,circle1.size,circle1.size);
