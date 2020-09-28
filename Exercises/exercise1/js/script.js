@@ -5,11 +5,8 @@ Pippin Barr
 Here is a description of this template p5 project.
 **************************************************/
 
-// setup()
-//
-// Description of setup() goes here.
-/* Setting up 4 circle objects and a background */
 
+/* Setting up 4 circle objects and a changeable background colour */
 let bg = {
   r: 0,
   g: 0,
@@ -63,23 +60,23 @@ function setup() {
 
 function draw() {
 background(bg.r,bg.g,bg.b);
-bg.r = map(circle1.size,100,width,0,255);
+bg.r = map(circle1.size,100,width,0,255);   // Map the background red colour to change with the circles' size
   // Circle 1
 fill(circle1.fill, circle1.fill, circle1.fill, circle1.alpha);
 ellipse(circle1.x,circle1.y,circle1.size,circle1.size);
 circle1.x = circle1.x + circle1.speed; // Move the circle right
 circle1.x = constrain(circle1.x, 0, width/2);
-circle1.size = circle1.size + 0.25;
+circle1.size = circle1.size + 0.25;   // Make the circle bigger
 circle1.size = constrain(circle1.size, 0, width);
-circle1.fill = circle1.fill - 0.18;
+circle1.fill = circle1.fill - 0.18;   //  Change the circle colour from white to black over time
 circle1.fill = constrain(circle1.fill, 0, 255);
 
   // Circle 2
   fill(circle2.r, circle2.g, circle2.b, circle2.alpha);
-  ellipse(circle2.x,circle2.y,circle1.size*0.8,circle1.size*0.8);
+  ellipse(circle2.x,circle2.y,circle1.size*0.8,circle1.size*0.8);  // Change size along with circle1
   circle2.x = circle2.x - circle2.speed; // Move the circle left
   circle2.x = constrain(circle2.x, width/2, width);
-  circle2.b = circle2.b + 0.18;
+  circle2.b = circle2.b + 0.18;          // Change colour from green to blue over time
   circle2.b = constrain(circle2.b, 0, 255);
   circle2.g = circle2.g - 0.18;
   circle2.g = constrain(circle2.g, 0, 255);
@@ -89,7 +86,7 @@ circle1.fill = constrain(circle1.fill, 0, 255);
   ellipse(circle3.x,circle3.y,circle1.size*0.6,circle1.size*0.6);
   circle3.y = circle3.y + circle3.speed; // Move the circle down
   circle3.y = constrain(circle3.y, 0, height/2);
-  circle3.r = circle3.r + 0.18;
+  circle3.r = circle3.r + 0.18;         // Change colour from blue to red over time
   circle3.r = constrain(circle3.r, 0, 255);
   circle3.b = circle3.b - 0.18;
   circle3.b = constrain(circle3.b, 0, 255);
@@ -97,9 +94,9 @@ circle1.fill = constrain(circle1.fill, 0, 255);
   // Circle 4
   fill(circle4.fill, circle4.fill, circle4.fill, circle4.alpha);
   ellipse(circle4.x,circle4.y,circle1.size*0.4,circle1.size*0.4);
-  circle4.y = circle4.y - circle4.speed; // Move the circle down
+  circle4.y = circle4.y - circle4.speed; // Move the circle up
   circle4.y = constrain(circle4.y, height/2, height);
-  circle4.fill = circle4.fill + 0.07;
+  circle4.fill = circle4.fill + 0.07;    // Change colour from grey to white over time; reaching its brightest at the same time as the other circles
   circle4.fill = constrain(circle4.fill, 0, 255);
 
 }
