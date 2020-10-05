@@ -23,10 +23,12 @@ let circle2 = {
   vy: 0
 }
 
-let state = 'simulation'; //Can be: title. simulation, love, sadness
+let state = `title`; //Can be: title. simulation, love, sadness
 
 function setup() {
   createCanvas(500, 500);
+
+  setupCircles();
 }
 
 function setupCircles() {
@@ -39,21 +41,47 @@ function setupCircles() {
 }
 
 function draw() {
-  background(0);
+  background(0,0,0,30);
 
-  if (state === 'title') {
-
+  if (state === `title`) {
+    title();
   }
-  else if (state === 'simulation'){
-      simulation();
+  else if (state === `simulation`) {
+    simulation();
   }
-  else if (state === 'love'){
-
+  else if (state === `love`) {
+    love();
   }
-  else if (state === 'sadness'){
-
+  else if (state === `sadness`) {
+    sadness();
   }
+}
 
+function title() {
+  push();
+  textSize(64);
+  fill(200,100,100);
+  textAlign(CENTER,CENTER);
+  text(`LOVE?`,width/2,height/2);
+  pop();
+}
+
+function love() {
+  push();
+  textSize(80);
+  fill(230,110,120);
+  textAlign(CENTER,CENTER);
+  text(`LOVE!`,width/2,height/2);
+  pop();
+}
+
+function sadness() {
+  push();
+  textSize(80);
+  fill(150,150,255);
+  textAlign(CENTER,CENTER);
+  text(`);`,width/2,height/2);
+  pop();
 }
 
 function simulation() {
@@ -73,14 +101,14 @@ function checkOffScreen() {
   if (circle1.x >= width || circle1.x <= 0 || circle1.y >= height|| circle1.y <= 0
     || circle2.x >= width || circle2.x <= 0 || circle2.y >= height
     || circle2.y <= 0) {
-    background(100);   // Sad Ending
+      state = `sadness`;
   }
 }
 
 function checkOverlap() {
 let d = dist(circle1.x,circle1.y,circle2.x,circle2.y);
   if (d <= 100) {
-    background(170, 0, 0); // Happy Ending
+      state = `love`;
   }
 }
 
@@ -88,4 +116,10 @@ function display() {
   noStroke();
   ellipse(circle1.x,circle1.y,circle1.size,circle1.size);
   ellipse(circle2.x,circle2.y,circle2.size,circle2.size);
+}
+
+function mousePressed() {
+  if (state === `title`) {
+    state = `simulation`;
+  }
 }
