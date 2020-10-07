@@ -4,44 +4,44 @@ Pippin Barr
 
 Here is a description of this template p5 project.
 **************************************************/
+fontSize = 64;
+fontSizeSpeed = 1;
 
-let circle1 = {
+let seeker = {
   x: 0,
   y: 250,
-  size: 100,
-  speed: 5,
-  vx: 0,
-  vy: 0
+  size: 100
 }
 
-let circle2 = {
+let wanderer = {
   x: 0,
-  y: 250,
+  y: 0,
   size: 100,
-  speed: 5,
+  speed: 3,
   vx: 0,
-  vy: 0
+  vy: 0,
+  fill: 255
 }
 
-let state = `title`; //Can be: title. simulation, love, sadness
+let state = `title`; //Can be: title. simulation, found, GotAway
 
 function setup() {
   createCanvas(500, 500);
-
+  background(0);
   setupCircles();
 }
 
 function setupCircles() {
-  circle1.x = width/3;
-  circle2.x = width/3 * 2;
-  circle1.vx = random(circle1.speed,-circle1.speed);
-  circle1.vy = random(circle1.speed,-circle1.speed);
-  circle2.vx = random(circle2.speed,-circle2.speed);
-  circle2.vy = random(circle2.speed,-circle2.speed);
+  seeker.x = width/2;            //  Seeker Circle Starts in the center
+  seeker.y = height/2;
+  wanderer.x = random(0,width * 0.9);    //
+  wanderer.y = random(0,height * 0.9);
+  wanderer.vx = random(wanderer.speed,-wanderer.speed);
+  wanderer.vy = random(wanderer.speed,-wanderer.speed);
 }
 
 function draw() {
-  background(0,0,0,30);
+  background(0,0,0,50);
 
   if (state === `title`) {
     title();
@@ -49,73 +49,102 @@ function draw() {
   else if (state === `simulation`) {
     simulation();
   }
-  else if (state === `love`) {
-    love();
+  else if (state === `found`) {
+    found();
   }
-  else if (state === `sadness`) {
-    sadness();
+  else if (state === `gotAway`) {
+    gotAway();
+  }
+  else if (state === `dontLeave`) {
+    dontLeave();
   }
 }
 
 function title() {
   push();
   textSize(64);
-  fill(200,100,100);
+  fill(100,100,200);
   textAlign(CENTER,CENTER);
-  text(`LOVE?`,width/2,height/2);
+  text(`Where?`,width/2,height/2);
   pop();
 }
 
-function love() {
+function found() {
   push();
   textSize(80);
-  fill(230,110,120);
+  fill(100,100,250);
   textAlign(CENTER,CENTER);
-  text(`LOVE!`,width/2,height/2);
+  text(`Found!`,width/2,height/2);
   pop();
 }
 
-function sadness() {
+function gotAway() {     //
   push();
-  textSize(80);
+  textSize(64);
   fill(150,150,255);
   textAlign(CENTER,CENTER);
-  text(`);`,width/2,height/2);
+  text(`Got Away`,width/2,height/2);
   pop();
+}
+
+function dontLeave() {   // Secret Ending
+  push();
+  textSize(fontSize);
+  fill(150,150,255);
+  textAlign(CENTER,CENTER);
+  text(`Don't Leave!`,width/2,height/2);
+  pop();
+  fontSize = fontSize + fontSizeSpeed;
+  if (fontSize > 70) {
+    fontSizeSpeed = -fontSizeSpeed;
+  } else if (fontSize < 58) {
+    fontSizeSpeed = -fontSizeSpeed;
+  }
 }
 
 function simulation() {
   move();
-  checkOffScreen();
+  checkSeekerOffScreen();
+  checkWandererOffScreen();
   checkOverlap();
   display();
 }
 
 function move() {
-  circle1.x = circle1.x + circle1.vx;
-  circle1.y = circle1.y + circle1.vy;
-  circle2.x = circle2.x + circle2.vx;
-  circle2.y = circle2.y + circle2.vy;
+  wanderer.x = wanderer.x + wanderer.vx;
+  wanderer.y = wanderer.y + wanderer.vy;
 }
-function checkOffScreen() {
-  if (circle1.x >= width || circle1.x <= 0 || circle1.y >= height|| circle1.y <= 0
-    || circle2.x >= width || circle2.x <= 0 || circle2.y >= height
-    || circle2.y <= 0) {
-      state = `sadness`;
+function checkSeekerOffScreen(){
+    if (seeker.x >= width || seeker.x <= 0 || seeker.y >= height|| seeker.y <= 0) {
+      state = `dontLeave`;
+    }
+}
+
+function checkWandererOffScreen() {
+  if (wanderer.x >= width || wanderer.x <= 0 || wanderer.y >= height
+    || wanderer.y <= 0) {
+      state = `gotAway`;
   }
 }
 
 function checkOverlap() {
-let d = dist(circle1.x,circle1.y,circle2.x,circle2.y);
+let d = dist(seeker.x,seeker.y,wanderer.x,wanderer.y);
   if (d <= 100) {
-      state = `love`;
+      state = `found`;
   }
 }
 
 function display() {
   noStroke();
-  ellipse(circle1.x,circle1.y,circle1.size,circle1.size);
-  ellipse(circle2.x,circle2.y,circle2.size,circle2.size);
+  let a = dist(seeker.x,seeker.y,wanderer.x,wanderer.y);
+  wanderer.fill = a/2;
+  seeker.x = mouseX;
+  seeker.y = mouseY;
+  ellipse(seeker.x,seeker.y,seeker.size,seeker.size);
+  push();
+  fill(wanderer.fill);
+  ellipse(wanderer.x,wanderer.y,wanderer.size,wanderer.size);
+  pop();
 }
 
 function mousePressed() {
