@@ -15,6 +15,11 @@ let middleObject = {
   rotation: 0
 }
 
+let bg = {
+  fill: 0,
+  alpha: 25,
+}
+
 let circle1 = {
   x: 0,
   y: 0,
@@ -22,7 +27,8 @@ let circle1 = {
   r: 255,
   g: 255,
   b: 255,
-  colourSpeed: 0
+  colourSpeed: 0,
+  sizeChange: 0
 }
 
 let circle2 = {
@@ -41,8 +47,10 @@ let dot = {
   b: 255,
   colourSpeed: 0,
   alpha: 255,
-  dotsToDraw: 10000,
-  dotsDrawn: 0
+  dotsDrawnChange: 0,
+  dotsDrawn: 1000,
+  dotWeight: 1,
+  dotWeightChange: 0,
 }
 
 function setup() {
@@ -61,7 +69,7 @@ function setup() {
 
 function draw() {
 
-  background(0, 0, 0, 25);
+  background(bg.fill, bg.fill, bg.fill, bg.alpha);
   // while (dot.dotsDrawn < dot.dotsToDraw) {
   //   dot.x = random(0,width);
   //   dot.y = random(0,height);
@@ -71,10 +79,11 @@ function draw() {
   //   dot.dotsDrawn = dot.dotsDrawn + 1;
   // }
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < dot.dotsDrawn; i++) {
     dot.x = random(0,width);
     dot.y = random(0,height);
     dot.alpha = random(0,255);
+    strokeWeight(dot.dotWeight);
     stroke(dot.r,dot.g,dot.b,dot.alpha);
     point(dot.x,dot.y);
   }
@@ -84,8 +93,11 @@ function draw() {
 
   dot.g = dot.g + dot.colourSpeed;
   dot.b = dot.b + dot.colourSpeed;
+  // dot.dotWeight = dot.dotWeight + dot.dotWeightChange;
+  // dot.dotsDrawn = dot.dotsDrawn + dot.dotsDrawnChange;
   circle1.g = circle1.g + circle1.colourSpeed;
   circle1.b = circle1.b + circle1.colourSpeed;
+  circle1.size = circle1.size + circle1.sizeChange
 
   fill(0);
   ellipse(circle2.x + circle2.eclipseDist,circle2.y,circle2.size,circle2.size);
@@ -99,6 +111,14 @@ function draw() {
       circle2.eclipseSpeed = 0;
       circle1.colourSpeed = -1;
       dot.colourSpeed = -1;
+    }
+
+    if (circle1.g <= 0) {
+      circle1.sizeChange = 1;
+      // dot.dotWeightChange = 0.1;
+      // dot.dotsDrawnChange = -1;
+      dot.alpha = 255;
+      // bg.alpha = 255;
     }
   // push();
   // noStroke();
