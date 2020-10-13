@@ -8,21 +8,20 @@ Here is a description of this template p5 project
 // setup()
 //
 // Description of setup() goes here.
-let middleObject = {
-  x: 0,
-  y: 0,
-  size: 100,
-  rotation: 0
-}
 
 let openingText = {
   alpha: 0,
-  alphaChange: 0,
+  alphaChange: 0
 }
 
-let bg = {
+let openingText2 = {
+  alpha: 0,
+  alphaChange: 0
+}
+
+let titleBg = {
   fill: 0,
-  alpha: 25,
+  alpha: 25
 }
 
 let circle1 = {
@@ -69,6 +68,10 @@ let dot = {
   dotWeightChange: 0,
 }
 
+let player = {
+  size: 25,
+}
+
 let state = `title`
 
 function setup() {
@@ -77,8 +80,10 @@ function setup() {
   createCanvas(windowWidth * 0.999,windowHeight * 0.992);  //The canvas sometimes was too big for the browser and had scroll bars
   frameRate(60);
   background(0);   //Background starts absolute black so the transparent background in draw doesn't look grey
+  setupTitleCircles();
+}
 
-  function setupTitleCircles(){
+function setupTitleCircles() {
   circle1.x = width/2;
   circle1.y = height/2;
   circle2.x = width/2;
@@ -86,14 +91,17 @@ function setup() {
   circle3.x = width/2;
   circle3.y = height/2;
 }
-}
-
-
 
 function draw() {
+  if (state === `title`) {
+  title();
+} else if (state === `playing`) {
+    playing();
+  }
+} // Draw End
 
-function titleBackgrounnd() {
-  background(bg.fill, bg.fill, bg.fill, bg.alpha);
+function titleBackground() {
+  background(titleBg.fill, titleBg.fill, titleBg.fill, titleBg.alpha);
   for (let i = 0; i < dot.dotsDrawn; i++) {
     dot.x = random(0,width);
     dot.y = random(0,height);
@@ -106,6 +114,7 @@ function titleBackgrounnd() {
 
 function titleVariableChanges() {
   openingText.alpha = openingText.alpha + openingText.alphaChange;
+  openingText2.alpha = openingText2.alpha + openingText2.alphaChange;
   dot.g = dot.g + dot.colourSpeed;
   dot.b = dot.b + dot.colourSpeed;
   circle1.g = circle1.g + circle1.colourSpeed;
@@ -125,6 +134,7 @@ function displayTitleCircles() {
   ellipse(circle3.x,circle3.y,circle3.size,circle3.size);
 }
 
+
 function titleIfStatements() {
     if (circle2.eclipseDist >= 0) {
       circle2.eclipseSpeed = 0;
@@ -138,24 +148,51 @@ function titleIfStatements() {
       dot.alpha = 255;
     }
     if (circle1.size > 500) {     // Opening Text
-      push();
+        push();
       textSize(64);
       fill(0,0,0,openingText.alpha);    // Black Text
       textAlign(CENTER,CENTER);
       text(`WELCOME`,width/2,height/2 - 100);   //  WELCOME
-      pop();
+        pop();
+
       openingText.alphaChange = 10;
       circle3.alphaChange = 10;
     }
+    if (circle1.size > 525) {
+      push();
+    textSize(64);
+    fill(255,255,255,openingText2.alpha);    // White Text
+    textAlign(CENTER,CENTER);
+    text(`CHOOSE`,width/2,height/2 + 110);   //  CHOOSE
+      pop();
+
+      openingText2.alphaChange = 10;
+    }
 }
 
-} // Draw End
+function title() {
+  titleBackground();
+  titleVariableChanges();
+  displayTitleCircles();
+  titleIfStatements();
+}
 
-  function mousePressed() {
-    let d = dist(mouseX,mouseY,circle2.x,circle2.y)
-    if (d < 100) {
-      if (circle3.alphaChange >= 10) {
-              circle3.r = 0;
+function playing () {
+  background(255,0,0,50)
+  noStroke();
+  fill(mouseX/7,mouseX/7,mouseX/7);
+  ellipse(mouseX,mouseY,player.size,player.size)                  // Player
+
+  //If player go left Dark Ending, if go right Light ending
+
+
+  // Moving the player near invisible circles reveals them and changes their colour to the same as the player's
+
+
+
+}
+function mousePressed() {
+    if (circle3.alphaChange >= 10) {
+              state = `playing`
       }
-    }
   } // MousePressedEnd
