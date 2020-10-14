@@ -277,7 +277,7 @@ function playingBg() {
 function playerAndTriggers() {
   noStroke();
   fill(mouseX / 7, mouseX / 7, mouseX / 7);
-  ellipse(mouseX, mouseY, player.size, player.size) // Player
+  ellipse(mouseX, mouseY, player.size, player.size) // Player circle
 
   if (mouseX >= width) {
     state = `lightEnding`;
