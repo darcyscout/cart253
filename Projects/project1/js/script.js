@@ -1,14 +1,13 @@
 /**************************************************
-Template p5 project
-Pippin Barr
-
-Here is a description of this template p5 project
+Based on Template p5 project
+by Pippin Barr
+**************************************************/
+/*************************************************
+A Visual Poem (Conflict and Resolution)
+by Darcy Harun
 **************************************************/
 
-// setup()
-//
-// Description of setup() goes here.
-
+// Setting up variables
 let openingText = {
   alpha: 0,
   alphaChange: 0
@@ -54,7 +53,7 @@ let tCircle3 = {
   b: 255,
 }
 
-let dot = {
+let dot = { // Background dots
   x: 0,
   y: 0,
   r: 255,
@@ -68,7 +67,7 @@ let dot = {
   dotWeightChange: 0,
 }
 
-let player = {
+let player = { // Player circle
   size: 25,
 }
 
@@ -130,16 +129,17 @@ let darkText = {
   alphaChange: 0,
 }
 
-let state = `title`
+let state = `title` // Starts with an opening scene
 
 function setup() {
-  rectMode(CENTER);
-  angleMode(DEGREES);
-  createCanvas(windowWidth * 0.999, windowHeight * 0.992); //The canvas sometimes was too big for the browser and had scroll bars
+  createCanvas(windowWidth * 0.999, windowHeight * 0.992); // The canvas sometimes was too big for the browser and had scroll bars
   frameRate(60);
-  background(0); //Background starts absolute black so the transparent background in draw doesn't look grey
+  background(0); // Background starts absolute black so the transparent background in draw doesn't look grey
   setupTitletCircles();
+  setupPlayingCircles();
+}
 
+function setupPlayingCircles() { // 8 Circles in playing state
   pCircle1.x = random(0, width);
   pCircle1.y = random(0, height);
   pCircle2.x = random(0, width);
@@ -158,7 +158,7 @@ function setup() {
   pCircle8.y = random(0, height);
 }
 
-function setupTitletCircles() {
+function setupTitletCircles() { // 3 title circles
   tCircle1.x = width / 2;
   tCircle1.y = height / 2;
   tCircle2.x = width / 2;
@@ -167,19 +167,19 @@ function setupTitletCircles() {
   tCircle3.y = height / 2;
 }
 
-function draw() {
-  if (state === `title`) {
+function draw() { // states
+  if (state === `title`) { // Opening state
     title();
-  } else if (state === `playing`) {
+  } else if (state === `playing`) { // Player can move the choosing circle
     playing();
-  } else if (state === `lightEnding`) {
+  } else if (state === `lightEnding`) { // Light ending
     lightEnding();
-  } else if (state === `darkEnding`) {
+  } else if (state === `darkEnding`) { // Dark ending
     darkEnding();
   }
 } // Draw End
 
-function titleBackground() {
+function titleBackground() {  // Background and dots effect
   background(titleBg.fill, titleBg.fill, titleBg.fill, titleBg.alpha);
   for (let i = 0; i < dot.dotsDrawn; i++) {
     dot.x = random(0, width);
@@ -191,7 +191,7 @@ function titleBackground() {
   }
 }
 
-function titleVariableChanges() {
+function titleVariableChanges() { // Changing variables for Title
   openingText.alpha = openingText.alpha + openingText.alphaChange;
   openingText2.alpha = openingText2.alpha + openingText2.alphaChange;
   dot.g = dot.g + dot.colourSpeed;
@@ -203,7 +203,7 @@ function titleVariableChanges() {
   tCircle3.alpha = tCircle3.alpha + tCircle3.alphaChange;
 }
 
-function displayTitletCircles() {
+function displayTitletCircles() { // Drawing Circles for the Title
   noStroke();
   fill(tCircle1.r, tCircle1.g, tCircle1.b);
   ellipse(tCircle1.x, tCircle1.y, tCircle1.size, tCircle1.size);
@@ -214,7 +214,7 @@ function displayTitletCircles() {
 }
 
 
-function titleIfStatements() {
+function titleIfStatements() { // If statements for the Title state
   if (tCircle2.eclipseDist >= 0) {
     tCircle2.eclipseSpeed = 0;
     tCircle1.colourSpeed = -1;
@@ -222,8 +222,6 @@ function titleIfStatements() {
   }
   if (tCircle1.g <= 0) {
     tCircle1.sizeChange = 1;
-    // dot.dotWeightChange = 0.1;
-    // dot.dotsDrawnChange = -1;
     dot.alpha = 255;
   }
   if (tCircle1.size > 500) { // Opening Text
@@ -249,20 +247,20 @@ function titleIfStatements() {
   }
 }
 
-function title() {
+function title() { // Title...
   titleBackground();
   titleVariableChanges();
   displayTitletCircles();
   titleIfStatements();
 }
 
-function playing() {
+function playing() { // Playing state...
   playingBg();
   playerAndTriggers();
   drawPlayingCircles();
 } // End of Playing
 
-function playingBg() {
+function playingBg() { // Background for the playing state
   background(255, 0, 0, 25)
   for (let i = 0; i < dot.dotsDrawn; i++) {
     dot.x = random(0, width);
@@ -274,10 +272,10 @@ function playingBg() {
   }
 }
 
-function playerAndTriggers() {
+function playerAndTriggers() { // Player circle + triggers for both ending states
   noStroke();
   fill(mouseX / 7, mouseX / 7, mouseX / 7);
-  ellipse(mouseX, mouseY, player.size, player.size) // Player circle
+  ellipse(mouseX, mouseY, player.size, player.size) // Player circle with mouse control
 
   if (mouseX >= width) {
     state = `lightEnding`;
@@ -288,7 +286,7 @@ function playerAndTriggers() {
   }
 }
 
-function drawPlayingCircles() {
+function drawPlayingCircles() { // Draws 8 circles that fade in and out based on player position
   noStroke();
   let d1 = dist(mouseX, mouseY, pCircle1.x, pCircle1.y) / 8;
   fill(mouseX / 7, mouseX / 7, mouseX / 7, d1);
@@ -323,7 +321,7 @@ function drawPlayingCircles() {
   ellipse(pCircle8.x, pCircle8.y, 100, 100);
 }
 
-function lightEnding() {
+function lightEnding() {  // Light ending state...
   background(255, 255, 255);
   lightText.alpha = lightText.alpha + lightText.alphaChange;
   lightText.alphaChange = 5;
@@ -335,7 +333,7 @@ function lightEnding() {
   pop();
 }
 
-function darkEnding() {
+function darkEnding() { // dark ending...
   background(0, 0, 0);
   darkText.alpha = darkText.alpha + darkText.alphaChange;
   darkText.alphaChange = 5;
@@ -347,7 +345,7 @@ function darkEnding() {
   pop();
 }
 
-function mousePressed() {
+function mousePressed() { // Once "welcome" and "choose" text appear a click will change it to the playing state
   if (tCircle3.alphaChange >= 10 && state === `title`) {
     state = `playing`;
   }
