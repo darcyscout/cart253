@@ -7,9 +7,9 @@ let fishSpecial = {
   x: 0,
   y: 0,
   size: 50,
-  r: 200,
-  g: 100,
-  b: 100,
+  r: 100,
+  g: 255,
+  b: 255,
   vx: 0,
   vy: 0,
   speed: 2,
@@ -19,14 +19,12 @@ let fishSpecial = {
 let user = {
   x: 0,
   y: 0,
-  size: 100,
+  hitRadius: 50,
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-
-  user.x = mouseX;
-  user.y = mouseY;
+  frameRate(60);
 
   fishSpecial.x = random(0, width);
   fishSpecial.y = random(0, height);
@@ -52,6 +50,7 @@ function createFish(x, y) {
     vx: 0,
     vy: 0,
     speed: 2,
+    killed: false,
   };
   return fish;
 }
@@ -63,15 +62,21 @@ function draw() {
 
   displayUser();
 
+  moveFishSpecial();
+  displayFishSpecial();
+  checkFishSpecial();
   for (let i = 0; i < school.length; i++) {
     moveFish(school[i]);
     displayFish(school[i]);
+    checkFish(school[i]);
+
   }
 }
 
 // moveFish(fish)
 // Chooses whether the provided fish changes direction and moves it
 function moveFish(fish) {
+    if (!fish.killed) {
   // Choose whether to change direction
   let change = random(0, 1);
   if (change < 0.05) {
@@ -84,30 +89,44 @@ function moveFish(fish) {
   // Constrain the fish to the canvas
   fish.x = constrain(fish.x, 0, width);
   fish.y = constrain(fish.y, 0, height);
+  }
 }
 
 function moveFishSpecial() {
-  if (!fishSpecial.killed) {
+    if (!fishSpecial.killed) {
   // Choose whether to change direction
   let change = random(0, 1);
   if (change < 0.05) {
-    fish.vx = random(-fish.speed, fish.speed);
-    fish.vy = random(-fish.speed, fish.speed);
+    fishSpecial.vx = random(-fishSpecial.speed, fishSpecial.speed);
+    fishSpecial.vy = random(-fishSpecial.speed, fishSpecial.speed);
   }
   // Move the fish
-  fish.x = fish.x + fish.vx;
-  fish.y = fish.y + fish.vy;
+  fishSpecial.x = fishSpecial.x + fishSpecial.vx;
+  fishSpecial.y = fishSpecial.y + fishSpecial.vy;
   // Constrain the fish to the canvas
-  fish.x = constrain(fish.x, 0, width);
-  fish.y = constrain(fish.y, 0, height);
+  fishSpecial.x = constrain(fishSpecial.x, 0, width);
+  fishSpecial.y = constrain(fishSpecial.y, 0, height);
   }
 }
 
-function checkFishSpecial(fish) {
+function checkFish(fish) {
   if (!fish.killed) {
-    let d = dist(user.x, user.y, fish.x, fish.y);
-    if (d < user.size / 2 + fish.size / 2) {
+    let d = dist(fish.x, fish.y, fishSpecial.x, fishSpecial.y);
+    if (d < 100 + fishSpecial.size / 2) {
       fish.killed = true;
+      fishSpecial.x = random(0,width);
+      fishSpecial.y = random(0,height);
+    }
+  }
+}
+
+function checkFishSpecial() {
+  if (!fishSpecial.killed) {
+    let d = dist(user.x, user.y, fishSpecial.x, fishSpecial.y);
+    if (d < user.hitRadius / 2 + fishSpecial.size / 2) {
+      if (mouseIsPressed) {
+      fishSpecial.killed = true;
+      }
     }
   }
 }
@@ -115,14 +134,27 @@ function checkFishSpecial(fish) {
 // displayFish(fish)
 // Displays the provided fish on the canvas
 function displayFish(fish) {
+    if (!fish.killed) {
+     let d = dist(user.x,user.y,fish.x,fish.y);
   push();
-  fill(fish.r, fish.g, fish.b);
+  fill(fish.r + d, fish.g + d, fish.b + d);
   noStroke();
   ellipse(fish.x, fish.y, fish.size);
+  pop();
+  }
+}
+function displayFishSpecial() {
+    let d = dist(user.x,user.y,fishSpecial.x,fishSpecial.y);
+  push();
+  fill(fishSpecial.r + d, fishSpecial.g, fishSpecial.b);
+  noStroke();
+  ellipse(fishSpecial.x, fishSpecial.y, fishSpecial.size);
   pop();
 }
 
 function displayUser() {
+    user.x = mouseX;
+    user.y = mouseY;
     push();
     noStroke();
     fill(255);
