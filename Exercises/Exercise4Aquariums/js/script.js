@@ -1,5 +1,9 @@
 /*
 
+  SAVE THE FISH!
+
+  There is a menacing, teleporting, evil fish that is killing among your school!
+  You'll find it by its odd colour and click on it to kill it.
 
 */
 
@@ -39,7 +43,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   frameRate(60);
 
-  fishSpecial.x = random(0, width);
+  fishSpecial.x = random(0, width);   // Setting up the evil fish
   fishSpecial.y = random(0, height);
 
   for (let i = 0; i < schoolSize; i++) {
@@ -69,7 +73,7 @@ function createFish(x, y) {
 }
 
 // draw()
-// Moves and displays our fish
+// Handles all the states
 function draw() {
   background(0, 0, 30, 50);
 
@@ -85,12 +89,14 @@ function draw() {
 
 function playing() {
   for (let i = 0; i < school.length; i++) {
+      // Handles everything regarding the regular school of fish
     moveFish(school[i]);
     displayFish(school[i]);
     checkFish(school[i]);
   }
-  checkFailure();
-  displayUser();
+  checkFailure();  // Check if the fish count goes below half of the original amount
+  displayUser();    // displays the finder triangle
+      // Handles everything regarding the evil fish
   moveFishSpecial();
   displayFishSpecial();
   checkFishSpecial();
@@ -114,7 +120,7 @@ function success() {
 function failure() {
   push();
   textSize(endFont.size);
-  fill(250, 150, 150); //
+  fill(250, 150, 150); //   Redder colour
   textAlign(CENTER, CENTER);
   text(`Failure!`, width / 2, height / 2);
   pop();
@@ -168,13 +174,13 @@ function moveFishSpecial() {
   }
 }
 
-function checkFish(fish) {
+function checkFish(fish) {    // Checks if the regular fish touch the evil one
   if (!fish.killed) {
     let d = dist(fish.x, fish.y, fishSpecial.x, fishSpecial.y);
     if (d < 100 + fishSpecial.size / 2) {
-      fish.killed = true;
+      fish.killed = true;   // If they get touched they die
       schoolSize = schoolSize - 1;
-      fishSpecial.x = random(0, width);
+      fishSpecial.x = random(0, width);   // The evil fish teleports to a random location to strike again
       fishSpecial.y = random(0, height);
     }
   }
@@ -182,7 +188,7 @@ function checkFish(fish) {
 
 function checkFishSpecial() {
   if (!fishSpecial.killed) {
-    let d = dist(user.x, user.y, fishSpecial.x, fishSpecial.y);
+    let d = dist(user.x, user.y, fishSpecial.x, fishSpecial.y); // checks if the user kills the evil fish
     if (d < user.hitRadius / 2 + fishSpecial.size / 2) {
       if (mouseIsPressed) {
         fishSpecial.killed = true;
@@ -205,7 +211,7 @@ function displayFish(fish) {
   }
 }
 
-function displayFishSpecial() {
+function displayFishSpecial() {   // Displays the evil fish
   let d = dist(user.x, user.y, fishSpecial.x, fishSpecial.y);
   push();
   fill(fishSpecial.r + d, fishSpecial.g, fishSpecial.b);
@@ -214,7 +220,7 @@ function displayFishSpecial() {
   pop();
 }
 
-function displayUser() {
+function displayUser() {    // displays user triangle thing
   user.x = mouseX;
   user.y = mouseY;
   push();
