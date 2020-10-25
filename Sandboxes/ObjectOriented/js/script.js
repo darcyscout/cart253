@@ -5,11 +5,11 @@ let garden = {
   // An array to store the individual flowers
   flowers: [],
   // How many flowers in the garden
-  numFlowers: 100,
+  numFlowers: 1,
   // An array to our the bees
   bees: [],
   // How many bees in the garden
-  numBees: 50,
+  numBees: 0,
   // The color of the grass (background)
   grassColor: {
     r: 120,
@@ -17,6 +17,8 @@ let garden = {
     b: 120
   }
 };
+
+let state = `simulation`;
 
 // setup() creates the canvas and the flowers in the garden
 function setup() {
@@ -56,6 +58,15 @@ function setup() {
 // draw()
 // Displays our flowers
 function draw() {
+  if (state === `title`) {
+
+  }
+  else if (state === `simulation`) {
+    simulation();
+  }
+}
+
+function simulation() {
   // Display the grass
   background(garden.grassColor.r, garden.grassColor.g, garden.grassColor.b);
 
@@ -91,5 +102,15 @@ function draw() {
       bee.display();
     }
   }
+}
 
+// NEW! mousePressed() calls the equivalent mousePressed() method on every flower
+function mousePressed() {
+  // Loop through every flower in the garden
+  for (let i = 0; i < garden.flowers.length; i++) {
+    // Get the current flower in the loop
+    let flower = garden.flowers[i];
+    // Call the flower's mousePressed() method
+    flower.mousePressed();
+  }
 }
