@@ -34,7 +34,15 @@ class Flower {
     // If it is, this flower was clicked, so increase its stem length
     // this.size = this.size + 5;
     // this.size = constrain(this.size, 0, this.maxSize);
-    pollinate();
+    let growth = random(1, 5);
+    // Increase the petal thickness (divide by 10 to make it less rapid)
+    this.petalThickness = this.petalThickness + growth / 10;
+    // Increase the centre of the flower
+    this.size = this.size + growth;
+
+    // Constrain the elements
+    this.petalThickness = constrain(this.petalThickness, 0, this.maxPetalThickness);
+    this.size = constrain(this.size, 0, this.maxSize);
     // And also change its y position so it grows upward! (If we didn't do this
     // the then stem would grow downward, which would look weird.)
     // this.y = this.y - 5;
