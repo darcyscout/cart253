@@ -54,7 +54,7 @@ function setup() {
 }
 
 function draw() {
-  // Display the grass
+ // Display the grass
   background(garden.grassColor.r, garden.grassColor.g, garden.grassColor.b);
 
   // Loop through all the flowers in the array and display them
