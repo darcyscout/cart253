@@ -1,8 +1,11 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Prototype phase
 
 function setup() {
 =======
+=======
+>>>>>>> parent of ccde8ac... Ex5: I have completed it
 "use strict";
 
 // Our garden
@@ -61,7 +64,10 @@ function setup() {
 
 function draw() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of ccde8ac... Ex5: I have completed it
   // Display the grass
   background(garden.grassColor.r, garden.grassColor.g, garden.grassColor.b);
 
@@ -97,6 +103,9 @@ function draw() {
       bee.display();
     }
   }
+<<<<<<< HEAD
+>>>>>>> parent of ccde8ac... Ex5: I have completed it
+=======
 >>>>>>> parent of ccde8ac... Ex5: I have completed it
 
 }
