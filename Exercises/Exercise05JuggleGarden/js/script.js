@@ -1,3 +1,5 @@
+// I'm not exactly sure how but github ate my homework. While trying to create a new file for project 2 prototyping my commits somehow got reverted and it really sucks pls help.
+
 "use strict";
 
 // Our garden

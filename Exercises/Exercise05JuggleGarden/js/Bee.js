@@ -1,3 +1,5 @@
+// When trying to save my work Github reverted all my files to a previous commit and I tried to save it and I made it worse and now I'm sad.
+
 class Bee {
 
   constructor(x, y) {
