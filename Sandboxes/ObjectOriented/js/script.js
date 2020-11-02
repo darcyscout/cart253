@@ -5,11 +5,11 @@ let garden = {
   // An array to store the individual flowers
   flowers: [],
   // How many flowers in the garden
-  numFlowers: 70,
+  numFlowers: 1,
   // An array to our the bees
   bees: [],
   // How many bees in the garden
-  numBees: 50,
+  numBees: 0,
   // The color of the grass (background)
   grassColor: {
     r: 120,
@@ -23,7 +23,6 @@ let state = `simulation`;
 // setup() creates the canvas and the flowers in the garden
 function setup() {
   createCanvas(600, 600);
-  frameRate(60);
 
   // Create our flowers by counting up to the number of the flowers
   for (let i = 0; i < garden.numFlowers; i++) {

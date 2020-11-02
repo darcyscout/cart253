@@ -26,21 +26,6 @@ class Flower {
     this.alive = true;
   }
 
-  mousePressed() {
-  // Calculate the distance between this flower and the mouse
-  let d = dist(this.x,this.y,mouseX,mouseY);
-  // Check if the distance is less than the head of the flower
-  if (d < this.size/2 + this.petalThickness) {
-    // If it is, this flower was clicked, so increase its stem length
-    // this.size = this.size + 5;
-    // this.size = constrain(this.size, 0, this.maxSize);
-    pollinate();
-    // And also change its y position so it grows upward! (If we didn't do this
-    // the then stem would grow downward, which would look weird.)
-    // this.y = this.y - 5;
-  }
-}
-
   // shrink()
   // Shrinks the flower
   shrink() {
