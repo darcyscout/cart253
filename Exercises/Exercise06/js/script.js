@@ -1,3 +1,5 @@
+// I want to create different sound signatures for each of my particles in my fianl project that relates to their shape/what they are doing.
+
 "use strict";
 
 let oscillator;
