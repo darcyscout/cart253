@@ -2,7 +2,7 @@
 
 let space = {
   puffers: [],
-  numPuffers: 10,
+  numPuffers: 20,
   spaceColor: {
     r: 0,
     g: 0,

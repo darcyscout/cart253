@@ -7,8 +7,12 @@ class Puffer {
     this.vy = 0;
     this.speed = 3;
     this.jitteriness = 0.1;
-    this.size = 30;
-    this.spikeLength = 10;
+    this.displaySize = 0;
+    this.minSize = random(27,33);
+    this.maxSize = random(this.minSize * 2.7, this.minSize * 3.6);
+    this.spikeLength = 0;
+    this.minSpikeLength = this.minSize/3;
+    this.maxSpikeLength = this.maxSize/1.35;
     this.pufferColor = {
       r: 245,
       g: 245,
@@ -45,50 +49,31 @@ class Puffer {
       b: map(d,300,0,220,120),
       a: 50
     };
-    if (d < 100 + this.size) {
-      this.size += map(d,300,0,0.1,10);
+    if (d < 100 + this.displaySize) {
+      this.displaySize += map(d,300,0,0.1,10);
       this.spikeLength += map(d,300,0,0.4,10);
     }
-
-
-
-
-
-    // if (d < this.size * 2) {
-    //   this.pufferColor = {
-    //     r: 255,
-    //     g: 120,
-    //     b: 120,
-    //     a: 50
-    //   }
-    // } else {
-    //   this.pufferColor = {
-    //     r: 245,
-    //     g: 245,
-    //     b: 220,
-    //     a: 50
-    //   }
-    // }
   }
 
   unPuff() {
-    this.size -= 1;
-    this.size = constrain(this.size, 30, 100);
+    this.displaySize -= 1;
+    this.displaySize = constrain(this.displaySize, this.minSize, this.maxSize);
     this.spikeLength -= 0.5;
-    this.spikeLength = constrain(this.spikeLength, 10, 70);
+    this.spikeLength = constrain(this.spikeLength, this.minSpikeLength, this.maxSpikeLength);
   }
 
   display() {
       push();
     strokeWeight(0);
     fill(this.pufferColor.r, this.pufferColor.g, this.pufferColor.b, this.pufferColor.a);
-    ellipse(this.x,this.y,this.size);
+    ellipse(this.x,this.y,this.displaySize);
       pop();
 
       push();
     strokeWeight(1);
     stroke(255,50);
     translate(this.x,this.y);
+    rotate(0)
     line(0,-this.spikeLength,0,this.spikeLength);
       pop();
 
