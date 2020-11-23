@@ -13,12 +13,21 @@ class Puffer {
     this.spikeLength = 0;
     this.minSpikeLength = this.minSize/3;
     this.maxSpikeLength = this.maxSize/1.35;
+    this.spikeRotation = {
+      r1: 0,
+      r2: 0,
+      r3: 0
+    }
+    this.displayRotation = 1;
     this.pufferColor = {
       r: 245,
       g: 245,
       b: 220,
       a: 50
     };
+    this.increment = 0;
+    this.incrementChange = random(0.003, 0.007);
+    this.waveLength = 0;
   }
 
   move() {
@@ -49,6 +58,19 @@ class Puffer {
       b: map(d,300,0,220,120),
       a: 50
     };
+
+      this.waveLength = map(noise(this.increment),0,1,-1,1);
+      this.spikeRotation.r1 += this.waveLength * map(d,200,0,3,0);
+      this.increment += this.incrementChange;
+
+      this.waveLength = map(noise(this.increment),0,1,-1,1);
+      this.spikeRotation.r2 += this.waveLength * map(d,200,0,6,0);
+      this.increment += this.incrementChange;
+
+      this.waveLength = map(noise(this.increment),0,1,-1,1);
+      this.spikeRotation.r3 += this.waveLength * map(d,200,0,2,0);
+      this.increment += this.incrementChange;
+
     if (d < 100 + this.displaySize) {
       this.displaySize += map(d,300,0,0.1,10);
       this.spikeLength += map(d,300,0,0.4,10);
@@ -73,7 +95,7 @@ class Puffer {
     strokeWeight(1);
     stroke(255,50);
     translate(this.x,this.y);
-    rotate(0)
+    rotate(this.displayRotation + this.spikeRotation.r1);
     line(0,-this.spikeLength,0,this.spikeLength);
       pop();
 
@@ -81,7 +103,17 @@ class Puffer {
     strokeWeight(1);
     stroke(255,50);
     translate(this.x,this.y);
-    line(-this.spikeLength,0,this.spikeLength,0);
+    rotate(this.displayRotation + this.spikeRotation.r2);
+    line(0,-this.spikeLength,0,this.spikeLength);
       pop();
+
+      push();
+    strokeWeight(1);
+    stroke(255,50);
+    translate(this.x,this.y);
+    rotate(this.displayRotation + this.spikeRotation.r3);
+    line(0,-this.spikeLength,0,this.spikeLength);
+      pop();
+
   }
 }
