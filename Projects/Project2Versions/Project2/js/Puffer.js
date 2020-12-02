@@ -14,9 +14,9 @@ class Puffer {
     this.minSpikeLength = this.minSize/3;
     this.maxSpikeLength = this.maxSize/1.35;
     this.spikeRotation = {
-      r1: 0,
-      r2: 0,
-      r3: 0
+      r1: random(0,360),
+      r2: random(0,360),
+      r3: random(0,360)
     }
     this.displayRotation = 1;
     this.pufferColor = {
