@@ -18,7 +18,7 @@ class Bubbler {
   }
 
   move() {
-    this.tx = this.tx + 0.005;  // Movement code is based on Automated Movement lecture notes
+    this.tx = this.tx + 0.005; // Movement code is based on Automated Movement lecture notes
     this.ty = this.ty + 0.005;
 
     let noiseX = noise(this.tx);
@@ -30,7 +30,7 @@ class Bubbler {
     this.x = this.x + this.vx;
     this.y = this.y + this.vy;
 
-    if (this.x > width) {
+    if (this.x > width) { // Position wraps around canvas
       this.x -= width;
     } else if (this.x < 0) {
       this.x += width;
@@ -41,26 +41,13 @@ class Bubbler {
     }
   }
 
-  // link(puffer) {
-  //   let d = dist(this.x, this.y, puffer.x, puffer.y);
-  //     if (d < (this.size / 2) + (puffer.displaySize / 2)) {
-  //       this.particleColor.r = random(120, 255);
-  //       this.particleColor.g = random(120, 255);
-  //       this.particleColor.b = random(120, 255);
-  //     }   else {
-  //       this.particleColor.r = 171;
-  //       this.particleColor.g = 250;
-  //       this.particleColor.b = 255;
-  //     }
-  // }
-
-  display() {
+  display() { // Displays Bubbler
     this.size = constrain(this.size, 20, 80);
     push();
     strokeWeight(0.3);
     stroke(this.particleColor.r, this.particleColor.g, this.particleColor.b, this.particleColor.a * 7.5);
     fill(this.particleColor.r, this.particleColor.g, this.particleColor.b, this.particleColor.a);
-    ellipse(this.x,this.y,this.size);
+    ellipse(this.x, this.y, this.size);
     pop();
   }
 }

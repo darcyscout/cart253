@@ -26,13 +26,13 @@ class Puffer {
       b: 220,
       a: 50
     };
-    this.increment = 0;
-    this.incrementChange = random(0.003, 0.007);
-    this.waveLength = 0;
+    this.increment = 0; // Noise Variable
+    this.incrementChange = random(0.003, 0.007); // Noise Variable
+    this.waveLength = 0; // Noise Variable
   }
 
   move() {
-    this.tx = this.tx + 0.025;  // Movement code is based on Automated Movement lecture notes
+    this.tx = this.tx + 0.025; // Movement code is based on Automated Movement lecture notes
     this.ty = this.ty + 0.025;
 
     let noiseX = noise(this.tx);
@@ -44,7 +44,7 @@ class Puffer {
     this.x = this.x + this.vx;
     this.y = this.y + this.vy;
 
-    if (this.x > width) {
+    if (this.x > width) { // Position wraps around canvas
       this.x -= width;
     } else if (this.x < 0) {
       this.x += width;
@@ -55,7 +55,7 @@ class Puffer {
     }
   }
 
-  puff() {
+  puff() { // Becomes Aggressive when mouse is close to it
     let d = dist(this.x, this.y, mouseX, mouseY);
     this.pufferColor = {
       r: map(d, 300, 0, 245, 255),
@@ -82,7 +82,7 @@ class Puffer {
     }
   }
 
-  unPuff() {
+  unPuff() { // Aggression lowers over time
     this.displaySize -= 1;
     this.displaySize = constrain(this.displaySize, this.minSize, this.maxSize);
     this.spikeLength -= 0.5;
@@ -96,7 +96,7 @@ class Puffer {
     ellipse(this.x, this.y, this.displaySize);
     pop();
 
-    push();
+    push(); // Spike 1
     strokeWeight(1);
     stroke(255, 50);
     translate(this.x, this.y);
@@ -104,7 +104,7 @@ class Puffer {
     line(0, -this.spikeLength, 0, this.spikeLength);
     pop();
 
-    push();
+    push(); // Spike 2
     strokeWeight(1);
     stroke(255, 50);
     translate(this.x, this.y);
@@ -112,7 +112,7 @@ class Puffer {
     line(0, -this.spikeLength, 0, this.spikeLength);
     pop();
 
-    push();
+    push(); // Spike 3
     strokeWeight(1);
     stroke(255, 50);
     translate(this.x, this.y);

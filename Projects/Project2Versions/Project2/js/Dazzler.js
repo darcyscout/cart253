@@ -18,7 +18,7 @@ class Dazzler {
   }
 
   move() {
-    this.tx = this.tx + 0.002;  // Movement code is based on Automated Movement lecture notes
+    this.tx = this.tx + 0.002; // Movement code is based on Automated Movement lecture notes
     this.ty = this.ty + 0.002;
 
     let noiseX = noise(this.tx);
@@ -30,7 +30,7 @@ class Dazzler {
     this.x = this.x + this.vx;
     this.y = this.y + this.vy;
 
-    if (this.x > width) {
+    if (this.x > width) { // Position wraps around canvas
       this.x -= width;
     } else if (this.x < 0) {
       this.x += width;
@@ -41,25 +41,25 @@ class Dazzler {
     }
   }
 
-reveal() {
-  let d = dist(this.x, this.y, mouseX, mouseY);
-  this.particleColor = {
-    // r: 255,
-    // g: 250,
-    // b: 171,
-    r: map(d, 400, 0, 245, 255),
-    g: map(d, 400, 0, 245, 120),
-    b: map(d, 400, 0, 220, 120),
-    a: map(d, 400, 0, 0, 8)
-  };
-}
+  reveal() { // Colour and Opacity Changes when them mouse gets close to it
+    let d = dist(this.x, this.y, mouseX, mouseY);
+    this.particleColor = {
+      // r: 255,
+      // g: 250,
+      // b: 171,
+      r: map(d, 400, 0, 245, 255),
+      g: map(d, 400, 0, 245, 120),
+      b: map(d, 400, 0, 220, 120),
+      a: map(d, 400, 0, 0, 8)
+    };
+  }
 
   display() {
     push();
     strokeWeight(0.3);
     stroke(this.particleColor.r, this.particleColor.g, this.particleColor.b, this.particleColor.a * 4.5);
     fill(this.particleColor.r, this.particleColor.g, this.particleColor.b, this.particleColor.a);
-    ellipse(this.x,this.y,this.size);
+    ellipse(this.x, this.y, this.size);
     pop();
   }
 }
